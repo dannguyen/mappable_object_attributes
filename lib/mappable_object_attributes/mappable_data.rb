@@ -3,23 +3,35 @@ module MappableObjectAttributes;
     extend ActiveSupport::Concern
 
     included do
-      class_attribute :data_attributes_map
-      self.data_attributes_map ||= DataAttributesMap.new
+      class_attribute :data_maps
+      self.data_maps ||= Hashie::Mash.new
     end
 
 
 
     module ClassMethods
-      def define_attributes_map(&block)
-        datamap = self.data_attributes_map  
+      def define_attributes_map(mapname=:default, &block)
+        datamap = self.init_map_named(mapname)  
         # let the model-designer define the mash here
         yield datamap
 
         return datamap 
       end
 
-      def mapped_attribute_keys
-       self.data_attributes_map.keys
+      def default_data_map
+        data_maps[:default]
+      end
+
+      def mapped_attribute_keys(mapname=:default)
+       data_maps.fetch(mapname).map_keys
+      end
+
+      def fetch_map_named(mapname)
+        data_maps.fetch(mapname)
+      end
+
+      def init_map_named(mapname)
+        data_maps[mapname] ||= DataAttributesMap.new 
       end
 
       # This is called by an importing function, with the expectation
@@ -27,12 +39,13 @@ module MappableObjectAttributes;
       #
       # Returns a Hashie::Mash that assign_attributes/update_attributes
       # can be called from
-      def build_hash_from(hash_object)
+      def build_hash_from(hash_object, mapname=:default)
         data_mash = Hashie::Mash.new(hash_object)
         built_mash = Hashie::Mash.new
 
-        data_mash = Hashie::Mash.new(hash_object)
-        self.data_attributes_map.each_pair do |key, proc|
+        # build from the specified data_attributes_map
+        specific_data_map = self.fetch_map_named(mapname)
+        specific_data_map.each_pair do |key, proc|
           built_mash[key] = proc.call(data_mash)
         end
 
@@ -40,12 +53,9 @@ module MappableObjectAttributes;
         # create a callback to allow derivations 
 #        yield built_mash if block_given?
         # or should this be logic inside the model's initialization??
-        
+
         return built_mash
       end
-
-
-
 
     end
 

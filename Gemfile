@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-group :development do
+group :development, :test do
   gem "rspec", "~> 2.14.0"
   gem "bundler"
   gem "jeweler", "~> 1.8.4"

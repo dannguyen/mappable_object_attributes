@@ -6,6 +6,8 @@ require 'database_cleaner'
 require 'sqlite3'
 
 require 'mappable_object_attributes'
+require 'pry'
+
 include MappableObjectAttributes
 
 # Requires supporting files with custom matchers and macros, etc,

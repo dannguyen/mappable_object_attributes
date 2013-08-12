@@ -1,16 +1,31 @@
 require 'hashie'
 
 module MappableObjectAttributes
-  class DataAttributesMap 
+  class DataAttributesMap < BasicObject
+    include ::Kernel 
 
 
     def initialize
-      @mash = Hashie::Mash.new      
+      @mash = ::Hashie::Mash.new      
     end
 
+#    def fetch_map_named(mapname)
+#      @mash.fetch(mapname)
+#    end
+
+#    def init_map_named(mapname)
+#      @mash[mapname] ||= ::Hashie::Mash.new
+#      @mash[mapname]
+#    end
+
+    def map_keys
+      @mash.keys
+    end
 
     # send all setter methods directly to set_map_att_foo
     def method_missing(method_name, *arguments, &block)
+      # if it's all word characters and a :setter, 
+      #  then pass to the mash as a data attribute
       if method_name.to_s =~ /(\w+)=/
         set_map_att_foo($1, *arguments)
       elsif @mash.respond_to?(method_name)
@@ -18,13 +33,13 @@ module MappableObjectAttributes
       else
         super
       end
-    end
+    end 
 
 
 
     private 
     # also, all atts are now symbols
-    def set_map_att_foo(att, val)
+    def set_map_att_foo(att, val, mapname=:default)
       # processed_lambda_val is returned at the end and will consist of a lambda
       
       processed_lambda_val = case 
@@ -40,8 +55,8 @@ module MappableObjectAttributes
       else
         raise ::ArgumentError, "The value mapped to :#{att} must be either a String, Symbol, or Proc with arity 1. But #{val} is a #{val.class}"
       end
-
-     @mash.store(att.to_sym, processed_lambda_val)
+      
+      @mash.store(att.to_sym, processed_lambda_val)
     end
 
 

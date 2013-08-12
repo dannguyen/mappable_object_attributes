@@ -26,7 +26,7 @@ describe 'DataAttributesMap' do
     end
 
     it 'all mapped values should be Procs' do 
-      expect( BobMap.data_attributes_map.values.all?{|p| p.is_a?(Proc)} ).to be true
+      expect( BobMap.default_data_map.values.all?{|p| p.is_a?(Proc)} ).to be true
     end
 
     context 'value is blank' do 
