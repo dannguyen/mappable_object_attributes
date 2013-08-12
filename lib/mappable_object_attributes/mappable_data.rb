@@ -1,5 +1,4 @@
 require 'active_support/core_ext'
-
 module MappableObjectAttributes; 
   module MappableData 
     extend ActiveSupport::Concern
@@ -7,16 +6,26 @@ module MappableObjectAttributes;
     included do
       class_attribute :data_maps
       self.data_maps ||= Hashie::Mash.new
+
+      class_attribute :is_activerecord
+      self.is_activerecord = self.instance_methods.include?(:attr_accessible)
     end
 
 
     module ClassMethods
       def define_attributes_map(mapname=:default, &block)
-        datamap = self.init_map_named(mapname)  
+        data_map = self.init_map_named(mapname)  
         # let the model-designer define the mash here
-        yield datamap
+        yield data_map
 
-        return datamap 
+        # now make accessible if ActiveRecord
+        if self.is_activerecord
+          data_map.keys.each do |mkey|
+            attr_accessible mkey
+          end
+        end
+
+        return data_map 
       end
 
       def default_data_map
@@ -40,7 +49,7 @@ module MappableObjectAttributes;
       #
       # Returns a Hashie::Mash that assign_attributes/update_attributes
       # can be called from
-      def build_hash_from(hash_object, mapname=:default)
+      def make_hash_from(hash_object, mapname=:default)
         data_mash = Hashie::Mash.new(hash_object)
         built_mash = Hashie::Mash.new
 
@@ -50,18 +59,67 @@ module MappableObjectAttributes;
           built_mash[key] = proc.call(data_mash)
         end
 
-        # TODO:
-        # create a callback to allow derivations 
-#        yield built_mash if block_given?
-        # or should this be logic inside the model's initialization??
-
         return built_mash
       end
 
 
-      # override for activerecord
+      # ActiveRecord specific
       def build_from_map(hash_object, mapname=:default)
-        hsh = build_hash_from(hash_object, mapname)
+        instance = self.new
+        instance.assign_attributes_from_hash(hash_object, mapname)
+
+        return instance
+      end
+
+      def create_from_map(hash_object, mapname=:default)
+        instance = build_from_map(hash_object, mapname)
+        instance.save
+
+        return instance
+      end
+
+      # pre: Has access to ActiveController
+      def make_mapped_atts_accessible(data_hsh)
+#        params = ActionController::Parameters.new(data_hsh)
+#        permitted_params = params.permit!
+
+#        return permitted_params
+
+        data_hsh
+      end
+
+    end # END OF Class Methods
+
+
+    ###################### instance methods
+
+    # usage: convenience method that calls:
+    #  - make_hash_from
+    #  - makes attributes accessible
+    #  - assign_attributes
+    #  part of #build_from_map
+    def assign_attributes_from_hash(hash_object, mapname=:default)
+      msh = self.class.make_hash_from(hash_object, mapname)
+      accessible_msh = self.class.make_mapped_atts_accessible(msh)
+
+      self.assign_attributes(accessible_msh)
+    end
+
+
+
+    private
+
+
+  end
+end
+
+
+
+
+=begin  # deprecated non AR stuff
+old      def build_from_map(hash_object, mapname=:default)
+
+        hsh = make_hash_from(hash_object, mapname)
         obj = self.new
         hsh.each_pair do |k,v|
           obj.send("#{k}=".to_sym, v)
@@ -70,10 +128,5 @@ module MappableObjectAttributes;
         return obj
       end
 
+=end        
 
-    end
-
-
-
-  end
-end

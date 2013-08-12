@@ -20,7 +20,7 @@ describe 'DataAttributesMap' do
         'headline' => "A headline", 
         'hed' => 'Should be ignored', 
         'birthday' => "1985-01-12"}
-      @hash = BobMap.build_hash_from(@data_obj)
+      @hash = BobMap.make_hash_from(@data_obj)
     end
 
     it 'all mapped values should be Procs' do 

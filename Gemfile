@@ -7,10 +7,13 @@ group :development, :test do
   gem 'database_cleaner', "1.0.1"
   gem "pry"
   gem "rdoc", "~> 3.12"
+
+  gem 'activesupport', ">= 3.2.14"
+  gem 'activerecord', ">= 3.2.14"
+  gem 'protected_attributes'
 end
 
 
 gem 'hashie'
 gem 'sqlite3'
-gem 'activesupport', ">=3.2.14"
-gem 'activerecord', ">=3.2.14"
+

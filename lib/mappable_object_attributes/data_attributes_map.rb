@@ -9,14 +9,6 @@ module MappableObjectAttributes
       @mash = ::Hashie::Mash.new      
     end
 
-#    def fetch_map_named(mapname)
-#      @mash.fetch(mapname)
-#    end
-
-#    def init_map_named(mapname)
-#      @mash[mapname] ||= ::Hashie::Mash.new
-#      @mash[mapname]
-#    end
 
     def map_keys
       @mash.keys

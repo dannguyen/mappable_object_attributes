@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 require 'active_record'
+require 'protected_attributes'
 require 'database_cleaner'
 require 'sqlite3'
 
@@ -9,6 +10,7 @@ RSpec.configure do |config|
   config.before(:each) do
     DatabaseCleaner.start
   end
+  
   config.after(:each) do
     DatabaseCleaner.clean
   end
@@ -24,8 +26,10 @@ ActiveRecord::Base.establish_connection(
 ActiveRecord::Migration.verbose = false
 
 ActiveRecord::Schema.define do
-  create_table :records do |t|
- 
+  create_table :alice_maps do |t|
+    t.string :name
+    t.string :hed 
+    t.integer :birth_year
     t.timestamps
   end
 
