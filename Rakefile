@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "mappable_object_attributes"
   gem.homepage = "http://github.com/dannguyen/mappable_object_attributes"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{A convenience wrapper to help with defining how a record is created}
+  gem.description = %Q{Using the power of Hashie::Mash to define how a record consumes external data into defined records.}
   gem.email = "dansonguyen@gmail.com"
   gem.authors = ["Dan Nguyen"]
   # dependencies defined in Gemfile
