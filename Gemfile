@@ -10,6 +10,7 @@ group :development do
 end
 
 
+gem 'hashie'
 gem 'sqlite3'
 gem 'activesupport', ">=3.2.14"
 gem 'activerecord', ">=3.2.14"
