@@ -7,8 +7,19 @@ module MappableObjectAttributes;
       self.data_attributes_map ||= DataAttributesMap.new
     end
 
-    
 
+
+    module ClassMethods
+      def define_attributes_map(&block)
+        datamap = self.data_attributes_map  
+        # let the model-designer define the mash here
+        yield datamap
+
+        return datamap 
+      end
+    end
+
+    
 
   end
 end
