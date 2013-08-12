@@ -17,9 +17,39 @@ module MappableObjectAttributes;
 
         return datamap 
       end
+
+      def mapped_attribute_keys
+       self.data_attributes_map.keys
+      end
+
+      # This is called by an importing function, with the expectation
+      # that @@data_attributes_map has been defined
+      #
+      # Returns a Hashie::Mash that assign_attributes/update_attributes
+      # can be called from
+      def build_hash_from(hash_object)
+        data_mash = Hashie::Mash.new(hash_object)
+        built_mash = Hashie::Mash.new
+
+        data_mash = Hashie::Mash.new(hash_object)
+        self.data_attributes_map.each_pair do |key, proc|
+          built_mash[key] = proc.call(data_mash)
+        end
+
+        # TODO:
+        # create a callback to allow derivations 
+#        yield built_mash if block_given?
+        # or should this be logic inside the model's initialization??
+        
+        return built_mash
+      end
+
+
+
+
     end
 
-    
+
 
   end
 end
