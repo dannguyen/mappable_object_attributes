@@ -1,3 +1,5 @@
+require 'active_support/core_ext'
+
 module MappableObjectAttributes; 
   module MappableData 
     extend ActiveSupport::Concern
@@ -6,7 +8,6 @@ module MappableObjectAttributes;
       class_attribute :data_maps
       self.data_maps ||= Hashie::Mash.new
     end
-
 
 
     module ClassMethods
@@ -56,6 +57,19 @@ module MappableObjectAttributes;
 
         return built_mash
       end
+
+
+      # override for activerecord
+      def build_from_map(hash_object, mapname=:default)
+        hsh = build_hash_from(hash_object, mapname)
+        obj = self.new
+        hsh.each_pair do |k,v|
+          obj.send("#{k}=".to_sym, v)
+        end
+
+        return obj
+      end
+
 
     end
 

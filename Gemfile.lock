@@ -21,7 +21,7 @@ GEM
     atomic (1.1.12)
     builder (3.1.4)
     coderay (1.0.9)
-    database_cleaner (1.1.1)
+    database_cleaner (1.0.1)
     diff-lcs (1.2.4)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
@@ -91,7 +91,7 @@ DEPENDENCIES
   activerecord (>= 3.2.14)
   activesupport (>= 3.2.14)
   bundler
-  database_cleaner
+  database_cleaner (= 1.0.1)
   hashie
   jeweler (~> 1.8.4)
   pry

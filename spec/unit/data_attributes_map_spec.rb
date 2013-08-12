@@ -5,8 +5,6 @@ require 'spec_helper'
 describe 'DataAttributesMap' do 
 
   context 'end result of #set_map_att_foo' do 
-
-
     class BobMap
       include MappableData
 
@@ -22,7 +20,7 @@ describe 'DataAttributesMap' do
         'headline' => "A headline", 
         'hed' => 'Should be ignored', 
         'birthday' => "1985-01-12"}
-      @bob = BobMap.build_hash_from(@data_obj)
+      @hash = BobMap.build_hash_from(@data_obj)
     end
 
     it 'all mapped values should be Procs' do 
@@ -31,19 +29,19 @@ describe 'DataAttributesMap' do
 
     context 'value is blank' do 
       it 'should extract :key from data_obj' do 
-        expect(@bob.name).to eq 'Bob'
+        expect(@hash.name).to eq 'Bob'
       end
     end
 
     context 'value is a String or symbol' do 
       it 'should extract :value (as a key) from data_obj' do 
-        expect(@bob.hed).to eq 'A headline'
+        expect(@hash.hed).to eq 'A headline'
       end
     end
 
     context 'value is a Proc' do 
       it 'should execute Proc upon the data object' do 
-        expect(@bob.birth_year).to eq 1985
+        expect(@hash.birth_year).to eq 1985
       end
       it 'should raise ArgumentError if arity is != 1' do 
         expect{ BobMap.define_attributes_map do |b|
@@ -61,8 +59,8 @@ describe 'DataAttributesMap' do
         }.to raise_error ArgumentError
       end
     end
-
-
-
   end  
+
+
+
 end
