@@ -99,7 +99,6 @@ PLATFORMS
 DEPENDENCIES
   actionpack (>= 3.2.14)
   activerecord (>= 3.2.14)
-  activesupport (>= 3.2.14)
   bundler
   database_cleaner (= 1.0.1)
   hashie

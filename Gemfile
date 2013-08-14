@@ -8,7 +8,7 @@ group :development, :test do
   gem "pry"
   gem "rdoc", "~> 3.12"
 #  gem 'protected_attributes'
-  gem 'activesupport', ">= 3.2.14"
+#  gem 'activesupport', ">= 3.2.14"
   gem 'activerecord', ">= 3.2.14"
   gem 'actionpack', ">= 3.2.14"
 end

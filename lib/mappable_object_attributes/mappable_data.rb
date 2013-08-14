@@ -19,11 +19,11 @@ module MappableObjectAttributes;
         yield data_map
 
         # now make accessible if ActiveRecord
-        if self.is_activerecord & self.respond_to?(:attr_accessible)
-          data_map.keys.each do |mkey|
+#        if self.is_activerecord & self.respond_to?(:attr_accessible)
+#          data_map.keys.each do |mkey|
             #attr_accessible mkey
-          end
-        end
+#          end
+#        end
 
         return data_map 
       end
@@ -79,6 +79,7 @@ module MappableObjectAttributes;
       end
 
       # pre: Has access to ActiveController
+      # TODO: DEPRECATE
       def make_mapped_atts_accessible(data_hsh)
         params = ActionController::Parameters.new(data_hsh)
         permitted_params = params.permit!
@@ -97,9 +98,12 @@ module MappableObjectAttributes;
     #  part of #build_from_map
     def assign_attributes_from_hash(hash_object, mapname=:default)
       msh = self.class.make_hash_from(hash_object, mapname)
-      accessible_msh = self.class.make_mapped_atts_accessible(msh)
+#      accessible_msh = self.class.make_mapped_atts_accessible(msh)
 
-      self.assign_attributes(accessible_msh)
+      # meh, let's just loop and assign
+      (msh.keys & self.attribute_names).each do |key|
+        self.send "#{key}=", msh[key]
+      end
     end
 
 
