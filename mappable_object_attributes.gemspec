@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dan Nguyen"]
-  s.date = "2013-08-12"
+  s.date = "2013-08-14"
   s.description = "Using the power of Hashie::Mash to define how a record consumes external data into defined records."
   s.email = "dansonguyen@gmail.com"
   s.extra_rdoc_files = [
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
     "lib/mappable_object_attributes.rb",
     "lib/mappable_object_attributes/data_attributes_map.rb",
     "lib/mappable_object_attributes/mappable_data.rb",
+    "mappable_object_attributes.gemspec",
     "spec/integration/with_active_record_spec.rb",
     "spec/mappable_object_attributes_spec.rb",
     "spec/spec_helper.rb",
@@ -39,11 +40,11 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/dannguyen/mappable_object_attributes"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "2.0.5"
+  s.rubygems_version = "1.8.23"
   s.summary = "A convenience wrapper to help with defining how a record is created"
 
   if s.respond_to? :specification_version then
-    s.specification_version = 4
+    s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<hashie>, [">= 0"])
@@ -56,7 +57,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<activesupport>, [">= 3.2.14"])
       s.add_development_dependency(%q<activerecord>, [">= 3.2.14"])
-      s.add_development_dependency(%q<protected_attributes>, [">= 0"])
+      s.add_development_dependency(%q<actionpack>, [">= 3.2.14"])
     else
       s.add_dependency(%q<hashie>, [">= 0"])
       s.add_dependency(%q<sqlite3>, [">= 0"])
@@ -68,7 +69,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<activesupport>, [">= 3.2.14"])
       s.add_dependency(%q<activerecord>, [">= 3.2.14"])
-      s.add_dependency(%q<protected_attributes>, [">= 0"])
+      s.add_dependency(%q<actionpack>, [">= 3.2.14"])
     end
   else
     s.add_dependency(%q<hashie>, [">= 0"])
@@ -81,7 +82,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<activesupport>, [">= 3.2.14"])
     s.add_dependency(%q<activerecord>, [">= 3.2.14"])
-    s.add_dependency(%q<protected_attributes>, [">= 0"])
+    s.add_dependency(%q<actionpack>, [">= 3.2.14"])
   end
 end
 

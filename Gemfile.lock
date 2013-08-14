@@ -1,6 +1,12 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    actionpack (4.0.0)
+      activesupport (= 4.0.0)
+      builder (~> 3.1.0)
+      erubis (~> 2.7.0)
+      rack (~> 1.5.2)
+      rack-test (~> 0.6.2)
     activemodel (4.0.0)
       activesupport (= 4.0.0)
       builder (~> 3.1.0)
@@ -23,6 +29,7 @@ GEM
     coderay (1.0.9)
     database_cleaner (1.0.1)
     diff-lcs (1.2.4)
+    erubis (2.7.0)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
     git (1.2.5)
@@ -62,13 +69,13 @@ GEM
       multi_json (~> 1.0)
       multi_xml (~> 0.5)
       rack (~> 1.2)
-    protected_attributes (1.0.3)
-      activemodel (>= 4.0.0, < 5.0)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
     rack (1.5.2)
+    rack-test (0.6.2)
+      rack (>= 1.0)
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
@@ -90,13 +97,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionpack (>= 3.2.14)
   activerecord (>= 3.2.14)
   activesupport (>= 3.2.14)
   bundler
   database_cleaner (= 1.0.1)
   hashie
   jeweler (~> 1.8.4)
-  protected_attributes
   pry
   rdoc (~> 3.12)
   rspec (~> 2.14.0)

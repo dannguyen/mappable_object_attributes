@@ -8,7 +8,7 @@ module MappableObjectAttributes;
       self.data_maps ||= Hashie::Mash.new
 
       class_attribute :is_activerecord
-      self.is_activerecord = self.instance_methods.include?(:attr_accessible)
+      self.is_activerecord = self <= ActiveRecord::Base
     end
 
 
@@ -19,9 +19,9 @@ module MappableObjectAttributes;
         yield data_map
 
         # now make accessible if ActiveRecord
-        if self.is_activerecord
+        if self.is_activerecord & self.respond_to?(:attr_accessible)
           data_map.keys.each do |mkey|
-            attr_accessible mkey
+            #attr_accessible mkey
           end
         end
 
@@ -80,12 +80,9 @@ module MappableObjectAttributes;
 
       # pre: Has access to ActiveController
       def make_mapped_atts_accessible(data_hsh)
-#        params = ActionController::Parameters.new(data_hsh)
-#        permitted_params = params.permit!
-
-#        return permitted_params
-
-        data_hsh
+        params = ActionController::Parameters.new(data_hsh)
+        permitted_params = params.permit!
+        return permitted_params
       end
 
     end # END OF Class Methods

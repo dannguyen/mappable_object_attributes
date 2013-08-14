@@ -1,4 +1,5 @@
 require 'spec_helper_with_ar'
+require 'action_controller'
 
 describe "Interaction with ActiveRecord" do
 
